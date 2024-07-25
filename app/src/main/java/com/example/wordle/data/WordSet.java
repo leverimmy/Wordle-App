@@ -1,4 +1,4 @@
-package com.example.wordle.utils;
+package com.example.wordle.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
