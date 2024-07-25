@@ -24,6 +24,12 @@ public class User {
         return minGuess;
     }
 
+    public void setValues(int winRounds, int totalRounds, int minGuess) {
+        this.winRounds = winRounds;
+        this.totalRounds = totalRounds;
+        this.minGuess = minGuess;
+    }
+
     public void setWinRounds(int winRounds) {
         this.winRounds = winRounds;
     }

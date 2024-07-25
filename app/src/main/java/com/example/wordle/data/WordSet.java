@@ -3,6 +3,8 @@ package com.example.wordle.data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -32,5 +34,14 @@ public class WordSet {
     }
     public boolean isNotAccWord(String word) {
         return !accSet.contains(word);
+    }
+
+    public static String randomAnswer() {
+        Random random = new Random();
+        int randomIndex = random.nextInt(accSet.size());
+        return accSet.stream()
+                .skip(randomIndex)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("The set is empty."));
     }
 }

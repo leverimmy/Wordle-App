@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Deal with Back button
+        // 处理返回键
         onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -76,29 +76,30 @@ public class MainActivity extends AppCompatActivity {
     public User loadUser() {
         Log.d("preferenceTest", "read");
         SharedPreferences preferences_winRounds =
-                getSharedPreferences("winRounds", Context.MODE_PRIVATE);
+                getSharedPreferences("winRounds", MODE_PRIVATE);
         SharedPreferences preferences_totalRounds =
-                getSharedPreferences("totalRounds", Context.MODE_PRIVATE);
+                getSharedPreferences("totalRounds", MODE_PRIVATE);
         SharedPreferences preferences_minGuess =
-                getSharedPreferences("minGuess", Context.MODE_PRIVATE);
+                getSharedPreferences("minGuess", MODE_PRIVATE);
 
         int winRounds = preferences_winRounds.getInt("winRounds", 0);
         int totalRounds = preferences_totalRounds.getInt("totalRounds", 0);
         int minGuess = preferences_minGuess.getInt("minGuess", TOTAL_CHANCES);
 
-        Log.d("preferenceTest", "Read [winRounds = " + winRounds + ", totalRounds = "
-                + totalRounds + ", minGuess = " + minGuess + "]");
+        Log.d("preferenceTest", "Read [winRounds = " + winRounds +
+                ", totalRounds = " + totalRounds +
+                ", minGuess = " + minGuess + "]");
         return new User(winRounds, totalRounds, minGuess);
     }
 
     public void saveUser(User user) {
         Log.d("preferenceTest", "write");
         SharedPreferences preferences_winRounds =
-                getSharedPreferences("winRounds", Context.MODE_PRIVATE);
+                getSharedPreferences("winRounds", MODE_PRIVATE);
         SharedPreferences preferences_totalRounds =
-                getSharedPreferences("totalRounds", Context.MODE_PRIVATE);
+                getSharedPreferences("totalRounds", MODE_PRIVATE);
         SharedPreferences preferences_minGuess =
-               getSharedPreferences("minGuess", Context.MODE_PRIVATE);
+               getSharedPreferences("minGuess", MODE_PRIVATE);
 
         SharedPreferences.Editor editor_winRounds = preferences_winRounds.edit();
         SharedPreferences.Editor editor_totalRounds = preferences_totalRounds.edit();
