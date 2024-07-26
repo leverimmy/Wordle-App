@@ -17,6 +17,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -84,7 +85,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
-        processNewGame();
+        startNewGame();
         return root;
     }
 
@@ -184,7 +185,7 @@ public class HomeFragment extends Fragment {
         displayWord();
     }
 
-    void processNewGame() {
+    void startNewGame() {
         state.clear(wordSet.randomAnswer());
         guessWord.delete(0, guessWord.length());
         // 清理所有 input
@@ -200,26 +201,47 @@ public class HomeFragment extends Fragment {
         displayState();
     }
 
+    void processNewGame() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setTitle("新的游戏")
+            .setMessage("你确定要放弃此轮游戏吗？")
+            .setPositiveButton("是，并查看答案", (dialogInterface, i) -> {
+                Toast.makeText(getContext(), "答案为 " + state.answer.toLowerCase() + "。", Toast.LENGTH_SHORT).show();
+                User user = ((MainActivity) getActivity()).loadUser();
+                user.totalRounds += 1;
+                ((MainActivity) getActivity()).saveUser(user);
+                // 重新开始游戏
+                startNewGame();
+            })
+            .setNegativeButton("否", (dialog, which) -> Log.i("DialogBuilder","点击了否"))
+            .create().show();
+    }
+
     void processEnter() {
-        if (guessWord.length() < WORD_LENGTH || wordSet.isNotAccWord(String.valueOf(guessWord)))
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        if (guessWord.length() < WORD_LENGTH || wordSet.isNotAccWord(String.valueOf(guessWord))) {
+            dialogBuilder.setTitle("错误")
+                .setMessage("未找到这个单词！")
+                .setPositiveButton("好的", (dialog, which) -> Log.i("DialogBuilder","点击了好的"))
+                .create().show();
             return;
+        }
         state.word = String.valueOf(guessWord);
         guessWord.delete(0, guessWord.length());
         state = guess(state);
         displayState();
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         User user = ((MainActivity) getActivity()).loadUser();
         switch (state.status) {
             case WON:
                 dialogBuilder.setTitle("胜利")
-                        .setMessage("你赢了!")
-                        .setPositiveButton("再来一局", (dialogInterface, i) -> {
-                            // 重新开始游戏
-                            processNewGame();
-                        })
-                        .setNegativeButton("否", (dialog, which) -> Log.i("DialogBuilder","点击了否"))
-                        .create().show();
+                    .setMessage("你赢了!")
+                    .setPositiveButton("再来一局", (dialogInterface, i) -> {
+                        // 重新开始游戏
+                        startNewGame();
+                    })
+                    .setNegativeButton("否", (dialog, which) -> Log.i("DialogBuilder","点击了否"))
+                    .create().show();
                 user.winRounds += 1;
                 user.totalRounds += 1;
                 user.guesses[TOTAL_CHANCES - state.chancesLeft - 1] += 1;
@@ -227,13 +249,13 @@ public class HomeFragment extends Fragment {
                 break;
             case LOST:
                 dialogBuilder.setTitle("失败")
-                        .setMessage("你输了！答案为 " + state.answer.toLowerCase() + "。")
-                        .setPositiveButton("再来一局", (dialogInterface, i) -> {
-                            // 重新开始游戏
-                            processNewGame();
-                        })
-                        .setNegativeButton("否", (dialog, which) -> Log.i("DialogBuilder","点击了否"))
-                        .create().show();
+                    .setMessage("你输了！答案为 " + state.answer.toLowerCase() + "。")
+                    .setPositiveButton("再来一局", (dialogInterface, i) -> {
+                        // 重新开始游戏
+                        startNewGame();
+                    })
+                    .setNegativeButton("否", (dialog, which) -> Log.i("DialogBuilder","点击了否"))
+                    .create().show();
                 user.totalRounds += 1;
                 ((MainActivity) getActivity()).saveUser(user);
                 break;
