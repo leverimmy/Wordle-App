@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class WordSet {
+
     private Set<String> finalSet = new HashSet<>();           // Words that are allowed to be answers
     private Set<String> accSet = new HashSet<>();             // Words that are allowed to be guessed
     private final Context context;
@@ -25,6 +26,7 @@ public class WordSet {
         finalSet = retrieve_set_from_file(R.raw.final_words);
         accSet = retrieve_set_from_file(R.raw.acc_words);
     }
+
     private Set<String> retrieve_set_from_file(int resourceId) {
         Set<String> set = new HashSet<>();
         BufferedReader reader = null;
