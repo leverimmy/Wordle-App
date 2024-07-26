@@ -223,9 +223,9 @@ public class HomeFragment extends Fragment {
                         })
                         .setNegativeButton("否", (dialog, which) -> Log.i("DialogBuilder","点击了否"))
                         .create().show();
-                user.setWinRounds(user.getWinRounds() + 1);
-                user.setTotalRounds(user.getTotalRounds() + 1);
-                user.setMinGuess(min(user.getMinGuess(), TOTAL_CHANCES - state.chancesLeft + 1));
+                user.winRounds += 1;
+                user.totalRounds += 1;
+                user.guesses[TOTAL_CHANCES - state.chancesLeft] += 1;
                 ((MainActivity) getActivity()).saveUser(user);
                 break;
             case LOST:
@@ -237,7 +237,7 @@ public class HomeFragment extends Fragment {
                         })
                         .setNegativeButton("否", (dialog, which) -> Log.i("DialogBuilder","点击了否"))
                         .create().show();
-                user.setTotalRounds(user.getTotalRounds() + 1);
+                user.totalRounds += 1;
                 ((MainActivity) getActivity()).saveUser(user);
                 break;
             default:
@@ -276,7 +276,7 @@ public class HomeFragment extends Fragment {
         int row = TOTAL_CHANCES - state.chancesLeft - 1;
         for (int col = 0; col < inputLayout.getColumnCount(); col++) {
             int i = row * inputLayout.getColumnCount() + col;
-            Log.d("InputLayout", "i = " + i);
+            Log.d("InputLayout", "i = " + i + ", col = " + col + ", row = " + row);
             View child = inputLayout.getChildAt(i);
             if (child instanceof TextView) {
                 char ch = ((TextView) child).getText().charAt(0);

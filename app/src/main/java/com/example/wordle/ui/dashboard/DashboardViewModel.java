@@ -15,9 +15,14 @@ public class DashboardViewModel extends ViewModel {
     }
 
     public void updateText(User user) {
-        mText.setValue("Win Rounds: " + user.getWinRounds() + "\n"
-                + "Total Rounds: " + user.getTotalRounds() + "\n"
-                + "Minimum Guesses: " + user.getMinGuess());
+        StringBuffer s = new StringBuffer(
+                "Win Rounds: \n" + user.winRounds + "\n"
+                + "Total Rounds: \n" + user.totalRounds + "\n"
+                + "Best Tries Distribution: \n");
+        for (int i = 0; i < user.guesses.length; i++) {
+            s.append("#").append(i + 1).append(":\t").append(user.guesses[i]).append('\n');
+        }
+        mText.setValue(String.valueOf(s));
     }
 
     public LiveData<String> getText() {

@@ -23,6 +23,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.wordle.databinding.ActivityMainBinding;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -79,17 +81,19 @@ public class MainActivity extends AppCompatActivity {
                 getSharedPreferences("winRounds", MODE_PRIVATE);
         SharedPreferences preferences_totalRounds =
                 getSharedPreferences("totalRounds", MODE_PRIVATE);
-        SharedPreferences preferences_minGuess =
-                getSharedPreferences("minGuess", MODE_PRIVATE);
+        SharedPreferences preferences_guesses =
+                getSharedPreferences("guesses", MODE_PRIVATE);
 
         int winRounds = preferences_winRounds.getInt("winRounds", 0);
         int totalRounds = preferences_totalRounds.getInt("totalRounds", 0);
-        int minGuess = preferences_minGuess.getInt("minGuess", TOTAL_CHANCES);
+        int[] guesses = new int[6];
+        for (int i = 0; i < TOTAL_CHANCES; i++)
+            guesses[i] = preferences_guesses.getInt("guesses[" + i + "]", 0);
 
         Log.d("preferenceTest", "Read [winRounds = " + winRounds +
                 ", totalRounds = " + totalRounds +
-                ", minGuess = " + minGuess + "]");
-        return new User(winRounds, totalRounds, minGuess);
+                ", guesses = " + Arrays.toString(guesses) + "]");
+        return new User(winRounds, totalRounds, guesses);
     }
 
     public void saveUser(User user) {
@@ -98,20 +102,21 @@ public class MainActivity extends AppCompatActivity {
                 getSharedPreferences("winRounds", MODE_PRIVATE);
         SharedPreferences preferences_totalRounds =
                 getSharedPreferences("totalRounds", MODE_PRIVATE);
-        SharedPreferences preferences_minGuess =
-               getSharedPreferences("minGuess", MODE_PRIVATE);
+        SharedPreferences preferences_guesses =
+               getSharedPreferences("guesses", MODE_PRIVATE);
 
         SharedPreferences.Editor editor_winRounds = preferences_winRounds.edit();
         SharedPreferences.Editor editor_totalRounds = preferences_totalRounds.edit();
-        SharedPreferences.Editor editor_minGuess = preferences_minGuess.edit();
+        SharedPreferences.Editor editor_guesses = preferences_guesses.edit();
 
-        editor_winRounds.putInt("winRounds", user.getWinRounds()).apply();
-        editor_totalRounds.putInt("totalRounds", user.getTotalRounds()).apply();
-        editor_minGuess.putInt("minGuess", user.getMinGuess()).apply();
+        editor_winRounds.putInt("winRounds", user.winRounds).apply();
+        editor_totalRounds.putInt("totalRounds", user.totalRounds).apply();
+        for (int i = 0; i < TOTAL_CHANCES; i++)
+            editor_guesses.putInt("guesses[" + i + "]", user.guesses[i]).apply();
 
-        Log.d("preferenceTest", "Write [winRounds = " + user.getWinRounds() +
-                ", totalRounds = " + user.getTotalRounds() +
-                ", minGuess = " + user.getMinGuess() + "]");
+        Log.d("preferenceTest", "Write [winRounds = " + user.winRounds +
+                ", totalRounds = " + user.totalRounds +
+                ", guesses = " + Arrays.toString(user.guesses) + "]");
     }
 
 }
