@@ -13,13 +13,13 @@ public class State {
     public String word;               // The final answer, and the current guess word
     public GameStatus status;                 // The current game status
 
-    public State() {
+    public State(String answer) {
         wordState = new Color[WORD_LENGTH];
         Arrays.fill(wordState, Color.GRAY);
         alphabetState = new Color[ALPHABET_SIZE];
         Arrays.fill(alphabetState, Color.GRAY);
         chancesLeft = TOTAL_CHANCES;
-        this.answer = WordSet.randomAnswer();
+        this.answer = answer;
         word = "";
         status = GameStatus.RUNNING;
     }
@@ -58,11 +58,11 @@ public class State {
                 Arrays.hashCode(alphabetState), chancesLeft, answer, word, status);
     }
 
-    public void clear() {
+    public void clear(String answer) {
         Arrays.fill(wordState, Color.GRAY);
         Arrays.fill(alphabetState, Color.GRAY);
         chancesLeft = TOTAL_CHANCES;
-        this.answer = WordSet.randomAnswer();
+        this.answer = answer;
         word = "";
         status = GameStatus.RUNNING;
     }

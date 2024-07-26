@@ -1,13 +1,17 @@
 package com.example.wordle.data;
 
 public enum Color {
-    GRAY, RED, YELLOW, GREEN;
-    public static Color getColorByChar(char ch) {
-        switch (ch) {
-            case 'R': return RED;
-            case 'Y': return YELLOW;
-            case 'G': return GREEN;
-            default: return GRAY;
-        }
+    GRAY(0xFFA4AEC4), RED(0xFFF73131),
+    YELLOW(0xFFF3C237), GREEN(0xFF79B851),
+    WHITE(0xFFFFFFFF);
+
+    private final int rgbCode;
+
+    Color(int rgbCode) {
+        this.rgbCode = rgbCode;
+    }
+
+    public int getRgbCode() {
+        return rgbCode;
     }
 }
