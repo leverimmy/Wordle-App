@@ -1,4 +1,4 @@
-package com.example.wordle.data;
+package com.example.wordle.utils;
 
 import java.util.Arrays;
 import java.util.Objects;

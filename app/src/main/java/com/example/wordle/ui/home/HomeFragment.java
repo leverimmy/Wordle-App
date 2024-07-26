@@ -26,6 +26,9 @@ import com.example.wordle.MainActivity;
 import com.example.wordle.R;
 import com.example.wordle.data.*;
 import com.example.wordle.databinding.FragmentHomeBinding;
+import com.example.wordle.utils.Color;
+import com.example.wordle.utils.State;
+import com.example.wordle.utils.WordSet;
 
 public class HomeFragment extends Fragment {
 

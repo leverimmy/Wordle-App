@@ -1,4 +1,4 @@
-package com.example.wordle.data;
+package com.example.wordle.utils;
 
 public enum GameStatus {
     RUNNING, LOST, WON

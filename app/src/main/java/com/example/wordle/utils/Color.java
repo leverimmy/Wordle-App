@@ -1,4 +1,4 @@
-package com.example.wordle.data;
+package com.example.wordle.utils;
 
 public enum Color {
     GRAY(0xFFA4AEC4), RED(0xFFF73131),

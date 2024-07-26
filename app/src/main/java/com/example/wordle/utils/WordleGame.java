@@ -1,7 +1,5 @@
 package com.example.wordle.utils;
 
-import com.example.wordle.data.*;
-
 import java.util.*;
 
 public class WordleGame {
