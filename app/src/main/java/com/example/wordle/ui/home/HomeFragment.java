@@ -222,7 +222,7 @@ public class HomeFragment extends Fragment {
                         .create().show();
                 user.winRounds += 1;
                 user.totalRounds += 1;
-                user.guesses[TOTAL_CHANCES - state.chancesLeft] += 1;
+                user.guesses[TOTAL_CHANCES - state.chancesLeft - 1] += 1;
                 ((MainActivity) getActivity()).saveUser(user);
                 break;
             case LOST:
@@ -251,7 +251,7 @@ public class HomeFragment extends Fragment {
         int row = TOTAL_CHANCES - state.chancesLeft;
         for (int col = 0; col < inputLayout.getColumnCount(); col++) {
             int i = row * inputLayout.getColumnCount() + col;
-            Log.d("InputLayout", "i = " + i);
+            Log.d("Display Word", "i = " + i);
             View child = inputLayout.getChildAt(i);
             if (child instanceof TextView) {
                 try {

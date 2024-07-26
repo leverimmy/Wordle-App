@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
-
         // 处理返回键
         onBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
@@ -72,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         onBackPressedCallback.remove();
     }
 
+    // 读取用户数据
     public User loadUser() {
         Log.d("preferenceTest", "read");
         SharedPreferences preferences_winRounds =
@@ -93,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         return new User(winRounds, totalRounds, guesses);
     }
 
+    // 存用户数据
     public void saveUser(User user) {
         Log.d("preferenceTest", "write");
         SharedPreferences preferences_winRounds =
