@@ -8,6 +8,7 @@ import static java.lang.Math.min;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,22 +18,20 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.wordle.MainActivity;
 import com.example.wordle.R;
-import com.example.wordle.data.State;
-import com.example.wordle.data.User;
+import com.example.wordle.data.*;
 import com.example.wordle.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private StringBuffer guess = new StringBuffer();
-    private State state;
+    private StringBuffer guessWord = new StringBuffer();
+    private State state = new State();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,13 +68,11 @@ public class HomeFragment extends Fragment {
 
         // 完成 keyboardLayout
         TableLayout keyboardLayout = binding.KeyboardLayout;
-        int childCount = keyboardLayout.getChildCount();
-        for (int i = 0; i < childCount; i++) {
+        for (int i = 0; i < keyboardLayout.getChildCount(); i++) {
             View child = keyboardLayout.getChildAt(i);
             if (child instanceof LinearLayout) {
                 LinearLayout linearLayout = (LinearLayout) child;
-                int buttonCount = linearLayout.getChildCount();
-                for (int j = 0; j < buttonCount; j++) {
+                for (int j = 0; j < linearLayout.getChildCount(); j++) {
                     View buttonView = linearLayout.getChildAt(j);
                     if (buttonView instanceof Button) {
                         Button button = (Button) buttonView;
@@ -158,32 +155,43 @@ public class HomeFragment extends Fragment {
     }
 
     void processInput(char ch) {
-        if (guess.length() < WORD_LENGTH) {
-            guess.append(ch);
+        if (guessWord.length() < WORD_LENGTH) {
+            guessWord.append(ch);
         }
         displayWord();
     }
 
     void processBackspace() {
-        if (guess.length() > 0) {
-            guess.deleteCharAt(guess.length() - 1);
+        if (guessWord.length() > 0) {
+            guessWord.deleteCharAt(guessWord.length() - 1);
         }
         displayWord();
     }
 
     void processNewGame() {
         state.clear();
-        // TODO: 清理所有 input
+        // 清理所有 input
+        GridLayout inputLayout = binding.InputLayout;
+        for (int i = 0; i < inputLayout.getChildCount(); i++) {
+            View child = inputLayout.getChildAt(i);
+            if (child instanceof TextView) {
+                ((TextView) child).setText(" ");
+            }
+        }
+        // 清理所有 keyboard
         displayState();
     }
 
     void processEnter() {
-        state.word = String.valueOf(guess);
+        if (guessWord.length() < WORD_LENGTH) // TODO: || WordSet.isNotFinalWord(String.valueOf(guessWord)))
+            return;
+        state.word = String.valueOf(guessWord);
+        guessWord.delete(0, guessWord.length());
         state = guess(state);
         displayState();
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        User user = ((MainActivity)getActivity()).loadUser();
+        User user = ((MainActivity) getActivity()).loadUser();
         switch (state.status) {
             case WON:
                 dialogBuilder.setTitle("胜利");
@@ -195,7 +203,8 @@ public class HomeFragment extends Fragment {
                 dialogBuilder.create().show();
                 user.setWinRounds(user.getWinRounds() + 1);
                 user.setTotalRounds(user.getTotalRounds() + 1);
-                user.setMinGuess(min(user.getMinGuess(), TOTAL_CHANCES - state.chancesLeft));
+                user.setMinGuess(min(user.getMinGuess(), TOTAL_CHANCES - state.chancesLeft + 1));
+                ((MainActivity) getActivity()).saveUser(user);
                 break;
             case LOST:
                 dialogBuilder.setTitle("失败");
@@ -206,6 +215,7 @@ public class HomeFragment extends Fragment {
                 });
                 dialogBuilder.create().show();
                 user.setTotalRounds(user.getTotalRounds() + 1);
+                ((MainActivity) getActivity()).saveUser(user);
                 break;
             default:
                 break;
@@ -214,10 +224,29 @@ public class HomeFragment extends Fragment {
     }
 
     void displayWord() {
-        // TODO: 在对应行显示 guess
+        // 在对应行显示 guess
+        GridLayout inputLayout = binding.InputLayout;
+        Log.d("Guess Word", "Guess word = " + guessWord);
+
+        int row = TOTAL_CHANCES - state.chancesLeft;
+        for (int col = 0; col < inputLayout.getColumnCount(); col++) {
+            int i = row * inputLayout.getColumnCount() + col;
+            Log.d("InputLayout", "i = " + i);
+            View child = inputLayout.getChildAt(i);
+            if (child instanceof TextView) {
+                try {
+                    Log.d("Guess Word", "guessWord[i] = " + guessWord.charAt(col));
+                    ((TextView) child).setText(String.valueOf(guessWord.charAt(col)));
+                } catch (IndexOutOfBoundsException e) {
+                    Log.d("Guess Word", "Filling space.");
+                    ((TextView) child).setText(" ");
+                }
+            }
+        }
     }
 
     void displayState() {
         // TODO: 根据 state 更改按钮、当前行 guess 字母的颜色
+
     }
 }

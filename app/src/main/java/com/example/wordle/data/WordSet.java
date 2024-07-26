@@ -29,19 +29,18 @@ public class WordSet {
         }
         return set;
     }
-    public boolean isNotFinalWord(String word) {
+    public static boolean isNotFinalWord(String word) {
         return !finalSet.contains(word);
-    }
-    public boolean isNotAccWord(String word) {
-        return !accSet.contains(word);
     }
 
     public static String randomAnswer() {
-        Random random = new Random();
+        return "ABCDE";
+        /*Random random = new Random();
         int randomIndex = random.nextInt(accSet.size());
         return accSet.stream()
                 .skip(randomIndex)
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("The set is empty."));
+        */
     }
 }
