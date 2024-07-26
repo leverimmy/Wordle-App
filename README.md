@@ -27,7 +27,7 @@
 
 ### Wordle 逻辑
 
-Wordle 逻辑由 `com/example/wordle/utils/` 中的文件进行调度。它们是基于 [leverimmy/sast2024-java-answer](https://github.com/leverimmy/sast2024-java-answer) 二次开发而成的，核心函数为 `Wordle.guess` 函数，它接受一个 `State`，并返回此次猜测后的下一个 `State`。
+Wordle 逻辑由 `com/example/wordle/utils/` 中的文件进行调度，它们是基于 [leverimmy/sast2024-java-answer](https://github.com/leverimmy/sast2024-java-answer) 二次开发而成的。核心函数为 `Wordle.guess` 函数，它接受一个 `State`，并返回此次猜测后的下一个 `State`。
 
 ### 用户存档
 
