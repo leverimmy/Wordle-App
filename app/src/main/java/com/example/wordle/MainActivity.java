@@ -2,7 +2,6 @@ package com.example.wordle;
 
 import static com.example.wordle.utils.WordleGame.TOTAL_CHANCES;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.OnBackPressedDispatcher;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.gridlayout.widget.GridLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;

@@ -5,8 +5,6 @@ import static com.example.wordle.utils.WordleGame.TOTAL_CHANCES;
 import static com.example.wordle.utils.WordleGame.WORD_LENGTH;
 import static com.example.wordle.utils.WordleGame.guess;
 
-import static java.lang.Math.min;
-
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +54,7 @@ public class HomeFragment extends Fragment {
                 textView.setText(" ");
                 textView.setGravity(Gravity.CENTER);
                 textView.setTextSize(50); // 设置文本大小
-                textView.setTextColor(0xFFFFFFFF);
+                textView.setTextColor(Color.WHITE.getRgbCode());
                 textView.setBackgroundResource(R.drawable.gray_border); // 设置背景，默认为灰色
                 // 设置参数
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();

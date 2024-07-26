@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.wordle.MainActivity;
-import com.example.wordle.data.User;
 import com.example.wordle.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
