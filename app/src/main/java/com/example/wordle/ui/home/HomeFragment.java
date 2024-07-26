@@ -1,5 +1,6 @@
 package com.example.wordle.ui.home;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.example.wordle.utils.WordleGame.TOTAL_CHANCES;
 import static com.example.wordle.utils.WordleGame.WORD_LENGTH;
 import static com.example.wordle.utils.WordleGame.guess;
@@ -48,6 +49,7 @@ public class HomeFragment extends Fragment {
 
         inputLayout.setRowCount(TOTAL_CHANCES);
         inputLayout.setColumnCount(WORD_LENGTH);
+        inputLayout.setForegroundGravity(Gravity.CENTER);
         for (int row = 0; row < inputLayout.getRowCount(); row++) {
             for (int col = 0; col < inputLayout.getColumnCount(); col++) {
                 TextView textView = new TextView(getContext());
@@ -63,7 +65,7 @@ public class HomeFragment extends Fragment {
 
                 int screenWidth = getResources().getDisplayMetrics().widthPixels;
                 params.width = screenWidth / inputLayout.getColumnCount();
-                params.height = params.width;
+                params.height = WRAP_CONTENT;
 
                 // 将 TextView 添加到 GridLayout
                 inputLayout.addView(textView, params);
@@ -81,12 +83,11 @@ public class HomeFragment extends Fragment {
                     if (buttonView instanceof Button) {
                         Button button = (Button) buttonView;
                         button.setOnClickListener(v -> handleButtonPress((Button) v));
-                        if (i != keyboardLayout.getChildCount() - 1)
-                            button.setBackgroundColor(Color.GRAY.getRgbCode());
                     }
                 }
             }
         }
+        processNewGame();
         return root;
     }
 
